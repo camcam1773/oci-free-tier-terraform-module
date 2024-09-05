@@ -86,3 +86,13 @@ $ iptables -D INPUT <LINE_NUMBER>
 $ # Preserve the iptables rules.
 $ iptables-save > /etc/iptables/rules.v4
 ```
+## Timeout Error during provider installation
+```
+Error while installing ... vX.XX: could not query provider registry for ... : failed to retrieve authentication checksums for provider: the request failed after 2 attempts, please try again later:
+Get "...": net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)
+```
+
+If you encounter a timeout error like above while downlading provider files, export this environment variable to override timeout value:
+```bash
+export TF_REGISTRY_CLIENT_TIMEOUT=20
+```
