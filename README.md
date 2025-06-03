@@ -37,29 +37,23 @@ Before trying the `out-of-capacity` helper right away, try gradually upgrading t
 
 ## State Storage Backend
 
-After the successful creation of the desired instance, it would be better to persist the state by migrating to a remote backend such as S3, for this need you can also use Oracle's AWS S3 compatible Bucket Service's versioned Always Free Tier to store the state file, you can follow [the official guideline](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraformUsingObjectStore.htm#s3) to create such a bucket. The template below is using access/secret key authentication rather than the credential file recommended by the documentation.
-
-This is a piece of sensitive information that **should not** be version controlled. Instead of directly writing to `main.tf` file, create and use the override file, `main_override.tf`, to hold this sensitive data.
+After the successful creation of the desired instance, it would be better to persist the state by migrating to a remote backend. For this need, you can use Oracle's AWS S3 compatible Bucket Service's versioned Always Free Tier to store the state file, you can follow [the official guideline](https://developer.hashicorp.com/terraform/language/backend/oci). 
 
 ```hcl
 # main_override.tf
 terraform {
-  backend "s3" {
+  backend "oci" {
+    # Required
     bucket                      = "<Bucket>"
+    namespace                   = "<Namespace>"
+    # Optional
     key                         = "<Key/PathOnBucket>"
     region                      = "<Region>"
-    endpoint                    = "https://<Namespace>.compat.objectstorage.<Region>.oraclecloud.com"
-    access_key                  = "<AccessKey>"
-    secret_key                  = "<SecretKey>"
-    skip_region_validation      = true
-    skip_credentials_validation = true
-    skip_metadata_api_check     = true
-    force_path_style            = true
   }
 }
 ```
 
-After the change, init once again to reflect the backend change, it should be prompt a dialog to migrate the old state file to S3 backend.
+After the change, init once again to reflect the backend change, it should be prompt a dialog to migrate the old state file to OCI backend.
 
 ```bash
 $ terraform init
@@ -85,14 +79,4 @@ $ iptables -L --line-numbers
 $ iptables -D INPUT <LINE_NUMBER>
 $ # Preserve the iptables rules.
 $ iptables-save > /etc/iptables/rules.v4
-```
-## Timeout Error during provider installation
-```
-Error while installing ... vX.XX: could not query provider registry for ... : failed to retrieve authentication checksums for provider: the request failed after 2 attempts, please try again later:
-Get "...": net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)
-```
-
-If you encounter a timeout error like above while downlading provider files, export this environment variable to override timeout value:
-```bash
-export TF_REGISTRY_CLIENT_TIMEOUT=20
 ```
