@@ -74,6 +74,18 @@ variable "auto_iptables" {
   type        = bool
 }
 
+variable "vcn_cidr_blocks" {
+  description = "The deployment vcn cidr block (e.g., ['10.1.0.0/16', '172.30.0.0/20'])"
+  type        = list
+  default     = ["10.1.0.0/16"]
+}
+
+variable "subnet_cidr_block" {
+  description = "The deployment vcn cidr block (e.g., '10.1.20.0/24')"
+  type        = string
+  default     = "10.1.20.0/24"
+}
+
 variable "assign_public_ip" {
   default     = false
   description = "Whether the VNIC should be assigned a public IP address."
