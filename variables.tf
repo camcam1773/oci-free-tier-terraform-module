@@ -81,7 +81,7 @@ variable "vcn_cidr_blocks" {
 }
 
 variable "subnet_cidr_block" {
-  description = "The deployment vcn cidr block (e.g., '10.1.20.0/24')"
+  description = "The deployment subnet cidr block (e.g., '10.1.20.0/24')"
   type        = string
   default     = "10.1.20.0/24"
 }
