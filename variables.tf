@@ -76,7 +76,7 @@ variable "auto_iptables" {
 
 variable "vcn_cidr_blocks" {
   description = "The deployment vcn cidr block (e.g., ['10.1.0.0/16', '172.30.0.0/20'])"
-  type        = list
+  type        = list(string)
   default     = ["10.1.0.0/16"]
 }
 
