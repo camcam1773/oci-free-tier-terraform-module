@@ -134,7 +134,7 @@ variable "instance_source_type" {
 
 variable "boot_volume_size_in_gbs" {
   default     = "200"
-  description = "Bott volume size in GBs"
+  description = "Boot volume size in GBs"
   type        = number
 }
 
